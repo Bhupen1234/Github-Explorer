@@ -57,6 +57,10 @@ const userSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    githubrepos:{
+        type: Array,
+        default: [],   
+    },
     friends :{
       type: Array,
       default: [],
@@ -65,6 +69,7 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     }
+    
 
 },
 

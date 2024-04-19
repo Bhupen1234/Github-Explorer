@@ -10,7 +10,9 @@ const saveUser = async (username)=>{
         }
         else {
             const gitHubUser = await axios.get(`https://api.github.com/users/${username}`);
-            console.log(gitHubUser)
+            const githubrepos = await axios.get(`https://api.github.com/users/${username}/repos`)
+            
+         
             const newUser = new User({
                 username: username,
                 githubid: gitHubUser.data.id,
@@ -23,10 +25,13 @@ const saveUser = async (username)=>{
                 email: gitHubUser.data.email,
                 bio: gitHubUser.data.bio,
                 public_repos: gitHubUser.data.public_repos,
+                githubrepos : githubrepos.data.map((repo)=>({id : repo.id,username:repo.owner.login ,full_name:repo.full_name,name:repo.name,description:repo.description,language:repo.language,image: repo.owner.avatar_url})),
                 followers: gitHubUser.data.followers,
                 following: gitHubUser.data.following,
+
                 
             })
+            
 
             await newUser.save();
             return newUser;
